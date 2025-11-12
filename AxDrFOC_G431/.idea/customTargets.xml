@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="1e70f125-c5c0-4fd3-a43b-3fc5a6d29057" name="STM32_CLT" defaultType="TOOL">
+      <configuration id="e3235cfd-37d7-4b7b-afb2-7b20055a83a1" name="STM32_CLT" toolchainName="STM32-CLT" />
+    </target>
+  </component>
+</project>
