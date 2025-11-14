@@ -70,41 +70,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void lcd_write_cmd(uint8_t cmd)
-{
-  LCD_DC_Command;
-  HAL_SPI_Transmit(&hspi3, &cmd, 1, HAL_MAX_DELAY);
-}
-
-void lcd_write_data(uint8_t data)
-{
-  LCD_DC_Data;
-  HAL_SPI_Transmit(&hspi3, &data, 1, HAL_MAX_DELAY);
-}
-
-void lcd_init_test(void)
-{
-  LCD_RES_Clr();
-  HAL_Delay(50);
-  LCD_RES_Set();
-  HAL_Delay(50);
-
-  lcd_write_cmd(0x11);   // Sleep out
-  HAL_Delay(120);
-  lcd_write_cmd(0x29);   // Display on
-
-  lcd_write_cmd(0x36); lcd_write_data(0x00);
-  lcd_write_cmd(0x3A); lcd_write_data(0x55); // 16-bit color
-
-  // 填充红色区域测试
-  lcd_write_cmd(0x2A); lcd_write_data(0x00); lcd_write_data(0x28); lcd_write_data(0x00); lcd_write_data(0xE7);
-  lcd_write_cmd(0x2B); lcd_write_data(0x00); lcd_write_data(0x35); lcd_write_data(0x00); lcd_write_data(0xBB);
-  lcd_write_cmd(0x2C);
-  uint16_t color = 0xF800; // red
-  for (int i = 0; i < 240 * 135; i++)
-    HAL_SPI_Transmit(&hspi3, (uint8_t *)&color, 2, HAL_MAX_DELAY);
-}
-
 
 /* USER CODE END 0 */
 
@@ -149,21 +114,24 @@ int main(void)
   MX_USB_PCD_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  //
+  // HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  // __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 50); // 50% 占空比，ARR=99 时
+
+  bsp_ws2812_init();     // 里面会 HAL_TIM_Base_Start（可有可无，对 PWM 不致命）
+
+  // 先配一帧数据，比如全红
+  // bsp_ws2812_set_all(0x00FF00);
+  //
+  // // 然后真正启动 PWM+DMA
+  // bsp_ws2812_transmit();
 
 
-
-
-  bsp_ws2812_init();
-
-
-  // bsp_lcd_init();
-  LCD_Backlight_ON;
-  lcd_init_test();
-  // bsp_lcd_fill(TransColor888to565(0xFF0000));  // 红色
-  // HAL_Delay(500);
-  // bsp_lcd_fill(TransColor888to565(0x00FF00));  // 绿色
-  // HAL_Delay(500);
-  // bsp_lcd_fill(TransColor888to565(0x0000FF));  // 蓝色
+  bsp_lcd_fill(TransColor888to565(0xFF0000));  // 红色
+  HAL_Delay(500);
+  bsp_lcd_fill(TransColor888to565(0x00FF00));  // 绿色
+  HAL_Delay(500);
+  bsp_lcd_fill(TransColor888to565(0x0000FF));  // 蓝色
 
 
 
@@ -178,7 +146,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    // 彩虹沿着灯带“转一圈”
+    bsp_ws2812_rainbow_cycle(20);  // loop_period=20
+    bsp_ws2812_transmit();
 
+    HAL_Delay(5);
+
+
+    //
     // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_14);
     // HAL_Delay(500);
 

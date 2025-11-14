@@ -23,10 +23,20 @@ void bsp_ws2812_init(void)
 	HAL_TIM_Base_Start(&BSP_WS2812_TIM_HANDLE);
 }
 
-void bsp_ws2812_transmit(void) { HAL_TIM_PWM_Start_DMA(&BSP_WS2812_TIM_HANDLE,
-													   BSP_WS2812_TIM_CHANNEL,
-													   (uint32_t *)ws2812_data,
-													   BSP_WS2812_DATA_NUM); }
+void bsp_ws2812_transmit(void)
+{
+
+	// 先把之前可能残留的 DMA 传输停掉，顺便把状态从 BUSY 拉回 READY
+	HAL_TIM_PWM_Stop_DMA(&BSP_WS2812_TIM_HANDLE, BSP_WS2812_TIM_CHANNEL);
+
+	HAL_StatusTypeDef st = HAL_TIM_PWM_Start_DMA(&BSP_WS2812_TIM_HANDLE,BSP_WS2812_TIM_CHANNEL,(uint32_t *)ws2812_data,BSP_WS2812_DATA_NUM);
+	if (st != HAL_OK) {
+		HAL_Delay(500);
+		// 这里打个断点，看 st 是不是 HAL_ERROR 或 HAL_BUSY
+	}
+	// HAL_TIM_PWM_Start_DMA(&BSP_WS2812_TIM_HANDLE,BSP_WS2812_TIM_CHANNEL,(uint32_t *)ws2812_data,BSP_WS2812_DATA_NUM);
+}
+
 
 void bsp_ws2812_off(void)
 {
