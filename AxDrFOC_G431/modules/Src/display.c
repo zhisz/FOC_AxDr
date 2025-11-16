@@ -8,7 +8,7 @@ void display_foc(void)
 	LCD_ShowString(10, 5,(uint8_t *)"[READY]", GREEN, BLACK, 32, 0);
 		
 	LCD_ShowString(130, 5,(uint8_t *)"Vbus:", WHITE, BLACK, 16, 0);
-	LCD_ShowFloatNum1(170, 5, 24.12, 3, 2, GREEN, BLACK, 16);
+	// LCD_ShowFloatNum1(170, 5, 24.12, 3, 2, GREEN, BLACK, 16);
 	LCD_ShowString(220, 5, (uint8_t *)"V", WHITE, BLACK, 16, 0);
 	
 	LCD_ShowString(130, 21,(uint8_t *)"Ibus:", WHITE, BLACK, 16, 0);

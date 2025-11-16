@@ -71,6 +71,26 @@ void SystemClock_Config(void);
 uint16_t adc1_buff[2];
 uint16_t adc2_buff[4];
 
+float ADC2_PC5_GetVoltage(void)
+{
+  uint16_t raw = adc2_buff[0];      // Rank1: PC5 → IN11
+  const float Vref = 3.3f;          // VDDA = 3.3V
+
+  float v_adc = (float)raw / 4095.0f * Vref;  // PC5 引脚电压
+  return v_adc;
+}
+
+float ADC2_PC5_GetInputVoltage(void)
+{
+  float v_adc = ADC2_PC5_GetVoltage();
+  const float R1 = 30000.0f;   // 上面的电阻（接 Vin 那条）
+  const float R2 = 2000.0f;    // 下面的电阻（接 GND 那条）
+
+  return v_adc * (R1+R2) /R2                                                                                                                   ;   // 还原成分压前的 Vin
+}
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -152,6 +172,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    float vin = ADC2_PC5_GetInputVoltage();
+    // 可以 LCD 打出来 / 串口打印
+    LCD_ShowFloatNum1(170, 5, vin, 3, 2, GREEN, BLACK, 16);
+
     // LCD_ShowString(10, 5,(uint8_t *)"[READY]", GREEN, BLACK, 32, 0);
     // RGB_RainbowCycle(10,10);
     // LCD_DrawLine(0,0,100,100,RED);
@@ -163,7 +187,7 @@ int main(void)
     // HAL_Delay(500);
 
 
-    HAL_Delay(5);
+                                                       
 
 
     //
