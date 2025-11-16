@@ -7,7 +7,7 @@
 
 
 #define USE_ANALOG_SPI 0	// 可选的软件SPI或者硬件SPI		0: 硬件SPI  1: 软件SPI
-#define USE_HORIZONTAL 3  // 设置横屏或者竖屏显示 0或1为竖屏 2或3为横屏
+#define USE_HORIZONTAL 3 // 设置横屏或者竖屏显示 0或1为竖屏 2或3为横屏
 
 #if USE_HORIZONTAL==0||USE_HORIZONTAL==1
 #define LCD_W 135
@@ -37,7 +37,7 @@
 #define LCD_CS_Clr()   HAL_GPIO_WritePin(LCD_CS_GPIO_Port,LCD_CS_Pin, GPIO_PIN_RESET)//CS
 #define LCD_CS_Set()   HAL_GPIO_WritePin(LCD_CS_GPIO_Port,LCD_CS_Pin, GPIO_PIN_SET)
 
-#define LCD_BLK_Clr()  HAL_GPIO_WritePin(LCD_BLK_GPIO_Port,LCD_BLK_Pin, GPIO_PIN_RESET)//BLK
+#define LCD_BLK_Clr()  HAL_GPIO_WritePin(LCD_BLK_GPIO_Port,LCD_BLK_Pin, GPIO_PIN_SET)//BLK
 #define LCD_BLK_Set()  HAL_GPIO_WritePin(LCD_BLK_GPIO_Port,LCD_BLK_Pin, GPIO_PIN_RESET)
 
 void LCD_Init(void); 						//LCD初始化

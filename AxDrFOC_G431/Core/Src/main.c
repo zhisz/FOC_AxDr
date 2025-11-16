@@ -123,7 +123,7 @@ int main(void)
   HAL_Delay(1000);
 
   HAL_TIM_Base_Start(&htim3);
-  // HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim1);
 
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
@@ -137,9 +137,9 @@ int main(void)
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 3900);
 
   LCD_Init();
-  // LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
-  // HAL_Delay(1000);
-  // display_foc();
+  LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
+  HAL_Delay(1000);
+  display_foc();
 
 
   /* USER CODE END 2 */
@@ -154,12 +154,13 @@ int main(void)
     /* USER CODE BEGIN 3 */
     // LCD_ShowString(10, 5,(uint8_t *)"[READY]", GREEN, BLACK, 32, 0);
     // RGB_RainbowCycle(10,10);
-    LCD_Fill(0, 0, LCD_W, LCD_H, RED);
-    HAL_Delay(500);
-    LCD_Fill(0, 0, LCD_W, LCD_H, GREEN);
-    HAL_Delay(500);
-    LCD_Fill(0, 0, LCD_W, LCD_H, BLUE);
-    HAL_Delay(500);
+    // LCD_DrawLine(0,0,100,100,RED);
+    // LCD_Fill(0, 0, LCD_W, LCD_H, RED);
+    // HAL_Delay(500);
+    // LCD_Fill(0, 0, LCD_W, LCD_H, GREEN);
+    // HAL_Delay(500);
+    // LCD_Fill(0, 0, LCD_W, LCD_H, BLUE);
+    // HAL_Delay(500);
 
 
     HAL_Delay(5);
