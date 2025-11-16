@@ -2,6 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/modules/Inc/lcd_image.h" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/modules/Src/lcd.c" charset="GB2312" />
     <file url="file://$PROJECT_DIR$/modules/Src/lcd_image.c" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/modules/Src/vofa.c" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/modules/Src/w25q16.c" charset="GB2312" />
   </component>
 </project>

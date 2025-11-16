@@ -65,6 +65,8 @@ void Error_Handler(void);
 #define LCD_DC_GPIO_Port GPIOC
 #define WS2812_Pin GPIO_PIN_5
 #define WS2812_GPIO_Port GPIOA
+#define SPI3_CS_Pin GPIO_PIN_15
+#define SPI3_CS_GPIO_Port GPIOA
 #define SPI1_CSN_Pin GPIO_PIN_2
 #define SPI1_CSN_GPIO_Port GPIOD
 #define LCD_CS_Pin GPIO_PIN_6

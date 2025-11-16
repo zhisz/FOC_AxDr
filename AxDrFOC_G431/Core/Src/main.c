@@ -30,10 +30,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "graphics.h"
-
+#include "lcd.h"
+#include "modlue.h"
 #include "ws281x.h"
-
 #include "stdio.h"
 #include "stdbool.h"
 #include "string.h"
@@ -69,7 +68,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint16_t adc1_buff[2];
+uint16_t adc2_buff[4];
 
 /* USER CODE END 0 */
 
@@ -120,20 +120,26 @@ int main(void)
 
   bsp_ws2812_init();     // 里面会 HAL_TIM_Base_Start（可有可无，对 PWM 不致命）
 
-  // 先配一帧数据，比如全红
-  // bsp_ws2812_set_all(0x00FF00);
-  //
-  // // 然后真正启动 PWM+DMA
-  // bsp_ws2812_transmit();
+  HAL_Delay(1000);
 
+  HAL_TIM_Base_Start(&htim3);
+  // HAL_TIM_Base_Start_IT(&htim1);
 
-  bsp_lcd_fill(TransColor888to565(0xFF0000));  // 红色
-  HAL_Delay(500);
-  bsp_lcd_fill(TransColor888to565(0x00FF00));  // 绿色
-  HAL_Delay(500);
-  bsp_lcd_fill(TransColor888to565(0x0000FF));  // 蓝色
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+  HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
+  HAL_ADCEx_InjectedStart_IT(&hadc1);
+  HAL_ADCEx_InjectedStart(&hadc2);
 
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc1_buff, 2);
+  HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc2_buff, 4);
 
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 3900);
+
+  LCD_Init();
+  // LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
+  // HAL_Delay(1000);
+  // display_foc();
 
 
   /* USER CODE END 2 */
@@ -146,9 +152,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // 彩虹沿着灯带“转一圈”
-    bsp_ws2812_rainbow_cycle(20);  // loop_period=20
-    bsp_ws2812_transmit();
+    // LCD_ShowString(10, 5,(uint8_t *)"[READY]", GREEN, BLACK, 32, 0);
+    // RGB_RainbowCycle(10,10);
+    LCD_Fill(0, 0, LCD_W, LCD_H, RED);
+    HAL_Delay(500);
+    LCD_Fill(0, 0, LCD_W, LCD_H, GREEN);
+    HAL_Delay(500);
+    LCD_Fill(0, 0, LCD_W, LCD_H, BLUE);
+    HAL_Delay(500);
+
 
     HAL_Delay(5);
 
