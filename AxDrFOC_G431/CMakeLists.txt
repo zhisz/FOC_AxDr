@@ -49,15 +49,14 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(Core/Inc C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/STM32G4xx_HAL_Driver/Inc C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/CMSIS/Device/ST/STM32G4xx/Include C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/CMSIS/Include)
+include_directories(Core/Inc C:/Users/33576/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/STM32G4xx_HAL_Driver/Inc C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/CMSIS/Device/ST/STM32G4xx/Include C:/Users/Administrator/STM32Cube/Repository/STM32Cube_FW_G4_V1.6.1/Drivers/CMSIS/Include)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx)
 
 file(GLOB_RECURSE SOURCES
-        "Core/*.*"
-        "Drivers/*.*"
-        "modules/Inc/*.*"
-        "modules/Src/*.*")
+        "Core/Src/*.c"
+        "Drivers/Src/*.c"
+        "modules/Src/*.c")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32G431RBTX_FLASH.ld)
 
@@ -92,8 +91,9 @@ include_directories(${INCLUDES})
 
 #递归搜索
 file(GLOB_RECURSE HEADER_FILES
-        "modules/Inc/*.*"
-        "modules/Src/*.*"
+        "Core/Inc/*.h"
+        "Drivers/Inc/*.h"
+        "modules/Inc/*.h"
 )
 foreach(header ${HEADER_FILES})
     get_filename_component(header_dir ${header} DIRECTORY)

@@ -71,6 +71,7 @@ void SystemClock_Config(void);
 uint16_t adc1_buff[2];
 uint16_t adc2_buff[4];
 
+<<<<<<< Updated upstream
 float ADC2_PC5_GetVoltage(void)
 {
   uint16_t raw = adc2_buff[0];      // Rank1: PC5 → IN11
@@ -91,6 +92,8 @@ float ADC2_PC5_GetInputVoltage(void)
 
 
 
+=======
+>>>>>>> Stashed changes
 /* USER CODE END 0 */
 
 /**
@@ -142,6 +145,7 @@ int main(void)
 
   HAL_Delay(1000);
 
+<<<<<<< Updated upstream
   HAL_TIM_Base_Start(&htim3);
   HAL_TIM_Base_Start_IT(&htim1);
 
@@ -155,6 +159,19 @@ int main(void)
 
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 3900);
+=======
+  //
+  bsp_ws2812_init();
+  //
+  //
+  bsp_lcd_init();
+  bsp_lcd_fill(TransColor888to565(0xFF0000));  // 红色
+  HAL_Delay(500);
+  bsp_lcd_fill(TransColor888to565(0x00FF00));  // 绿色
+  HAL_Delay(500);
+  bsp_lcd_fill(TransColor888to565(0x0000FF));  // 蓝色
+
+>>>>>>> Stashed changes
 
   LCD_Init();
   LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
